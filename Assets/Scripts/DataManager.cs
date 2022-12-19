@@ -13,7 +13,8 @@ public class DataManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.instance.OnItemsMenu += CreateButtons;
+        //GameManager.instance.OnItemsMenu += CreateButtons;
+        GameManager.instance.onBoxObjetosOpen += CreateButtons;
     }
 
     private void CreateButtons()
@@ -29,6 +30,7 @@ public class DataManager : MonoBehaviour
             itemButton.name = item.ItemName;
         }
 
-        GameManager.instance.OnItemsMenu -= CreateButtons;
+        //GameManager.instance.OnItemsMenu -= CreateButtons;
+        GameManager.instance.onBoxObjetosOpen -= CreateButtons;
     }
 }

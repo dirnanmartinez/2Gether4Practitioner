@@ -32,7 +32,8 @@ public class ServerManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(GetJsonData());
-        GameManager.instance.OnItemsMenu += CreateButtons;
+        //GameManager.instance.OnItemsMenu += CreateButtons;
+        GameManager.instance.onBoxObjetosOpen += CreateButtons;
     }
 
     private void CreateButtons()
@@ -47,7 +48,8 @@ public class ServerManager : MonoBehaviour
             itemButton.URLBundleModel = item.URLBundleModel;
             StartCoroutine(GetBundleImage(item.URLImageModel, itemButton));
         }
-        GameManager.instance.OnItemsMenu -= CreateButtons;
+        //GameManager.instance.OnItemsMenu -= CreateButtons;
+        GameManager.instance.onBoxObjetosOpen -= CreateButtons;
     }
 
 

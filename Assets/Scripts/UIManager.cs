@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject loadingCanvas;
     [SerializeField] private GameObject loginCanvas;
     [SerializeField] private GameObject registerCanvas;
+    [SerializeField] private GameObject descActivityCanvas;
     [SerializeField] private GameObject optionsCanvas;
-    [SerializeField] private GameObject mainMenuCanvas;
-    [SerializeField] private GameObject itemsMenuCanvas;
-    [SerializeField] private GameObject ARPositionCanvas;
+    [SerializeField] private GameObject asistenteInfoCanvas;
+    [SerializeField] private GameObject asistenteStartPasoCanvas;
+    [SerializeField] private GameObject registerSpaceCanvas;
+    [SerializeField] private GameObject boxObjetosOpenCanvas;
+    [SerializeField] private GameObject aRPositionObjectCanvas;
+    [SerializeField] private GameObject asistenteInfoSaveCanvas;
+    [SerializeField] private GameObject nextPasoCanvas;
+    [SerializeField] private GameObject endActivityCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -20,35 +27,27 @@ public class UIManager : MonoBehaviour
         GameManager.instance.OnLoading += ActivateLoading;
         GameManager.instance.OnLogin += ActivateLoginMenu;
         GameManager.instance.OnRegister += ActivateRegisterMenu;
-        GameManager.instance.onOptionsMenu += ActivateOptionsMenu;
-        GameManager.instance.OnMainMenu += ActivateMainMenu;
-        GameManager.instance.OnItemsMenu += ActivateItemsMenu;
-        GameManager.instance.OnARPosition += ActivateARPosition;
-
+        GameManager.instance.onDescActivity += ActivateDescActivityMenu;
+        GameManager.instance.onAsistenteInfo += ActivateAsistenteInfoMenu;
+        GameManager.instance.onAsistenteStartPaso += ActivateAsistenteStartPasoMenu;
+        GameManager.instance.onRegisterSpace += ActivateRegisterSpaceMenu;
+        GameManager.instance.onBoxObjetosOpen += ActivateBoxObjetosOpenMenu;
+        GameManager.instance.onARPositionObject += ActivateARPositionObjectMenu;
+        GameManager.instance.onAsistenteInfoSave += ActivateSaveCanvas;
+        GameManager.instance.onNextPaso += ActivateNextPasoCanvas;
+        GameManager.instance.onEndActivity += ActivateEndActivityCanvas;
     }
 
     private void ActivateLoading()
     {
         loadingCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-
+    }
+    private void ActivateRegisterMenu()
+    {
         loginCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        registerCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        optionsCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        mainMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        itemsMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.5f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOMoveY(180, 0.3f);
-
-        ARPositionCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        ARPositionCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        registerCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
     }
-
     private void ActivateLoginMenu()
     {
         loadingCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
@@ -58,125 +57,99 @@ public class UIManager : MonoBehaviour
         registerCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
         optionsCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(3).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(4).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(5).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        mainMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        itemsMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.5f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOMoveY(180, 0.3f);
-
-        ARPositionCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        ARPositionCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
     }
-
-    private void ActivateRegisterMenu()
+    private void ActivateDescActivityMenu()
     {
-        loadingCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        loginCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        registerCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-
         optionsCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        mainMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        asistenteInfoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        itemsMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.5f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOMoveY(180, 0.3f);
-
-        ARPositionCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        ARPositionCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        descActivityCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
     }
-
-    private void ActivateOptionsMenu()
+    private void ActivateAsistenteInfoMenu()
     {
-        loadingCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        descActivityCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        loginCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        registerCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        optionsCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-
-        mainMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        itemsMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.5f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOMoveY(180, 0.3f);
-
-        ARPositionCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        ARPositionCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        asistenteInfoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
     }
-
-    private void ActivateMainMenu()
+    private void ActivateAsistenteStartPasoMenu()
     {
-        loadingCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        asistenteInfoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        nextPasoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        loginCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        registerCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        optionsCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        mainMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-        mainMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-        mainMenuCanvas.transform.GetChild(2).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-
-        itemsMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.5f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOMoveY(180, 0.3f);
-
-        ARPositionCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        ARPositionCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
+        asistenteStartPasoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
     }
-
-    private void ActivateItemsMenu()
+    private void ActivateRegisterSpaceMenu()
     {
-        loadingCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        asistenteStartPasoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        loginCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        registerCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        optionsCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        mainMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        itemsMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.5f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOMoveY(300, 0.3f);
+        registerSpaceCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+        registerSpaceCanvas.transform.GetChild(1).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
     }
-    private void ActivateARPosition()
+    private void ActivateBoxObjetosOpenMenu()
     {
-        loadingCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        registerSpaceCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        registerSpaceCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        loginCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        asistenteInfoSaveCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        registerCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(1).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(2).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(3).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(4).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(5).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
 
-        optionsCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        aRPositionObjectCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        aRPositionObjectCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        aRPositionObjectCanvas.transform.GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+    }
+    private void ActivateARPositionObjectMenu()
+    {
+        boxObjetosOpenCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(3).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(4).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(5).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
 
-        mainMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        mainMenuCanvas.transform.GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-
-        itemsMenuCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.5f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
-        itemsMenuCanvas.transform.GetChild(1).transform.DOMoveY(180, 0.3f);
-
-        ARPositionCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-        ARPositionCanvas.transform.GetChild(1).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+        aRPositionObjectCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+        aRPositionObjectCanvas.transform.GetChild(1).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+        aRPositionObjectCanvas.transform.GetChild(2).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
     }
 
+    private void ActivateSaveCanvas()
+    {
+        boxObjetosOpenCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(1).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(2).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(3).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(4).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        boxObjetosOpenCanvas.transform.GetChild(5).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+
+        asistenteInfoSaveCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+    }
+
+    private void ActivateNextPasoCanvas()
+    {
+        asistenteInfoSaveCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+        asistenteStartPasoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+
+        nextPasoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+    }
+
+    private void ActivateEndActivityCanvas()
+    {
+        nextPasoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(0, 0, 0), 0.3f);
+
+        endActivityCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
+    }
 
 }
