@@ -42,7 +42,8 @@ public class ARInteractionsManager : MonoBehaviour
     {
         aRPointer = transform.GetChild(0).gameObject;
         ARRaycastManager = FindObjectOfType<ARRaycastManager>();
-        GameManager.instance.OnMainMenu += SetItemPosition;
+        //GameManager.instance.OnMainMenu += SetItemPosition;
+        GameManager.instance.onBoxObjetosOpen += SetItemPosition;
     }
 
     private void SetItemPosition()
@@ -152,6 +153,7 @@ public class ARInteractionsManager : MonoBehaviour
     {
         Destroy(item3DModel);
         aRPointer.SetActive(false);
-        GameManager.instance.MainMenu();
+        //GameManager.instance.MainMenu();
+        GameManager.instance.BoxObjetosOpenMenu();
     }
 }

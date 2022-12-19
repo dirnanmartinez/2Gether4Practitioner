@@ -47,7 +47,8 @@ void Start()
         transform.GetChild(2).GetComponent<Text>().text = itemDescription;
 
         var button = GetComponent<Button>();
-        button.onClick.AddListener(GameManager.instance.ARPosition);
+        //button.onClick.AddListener(GameManager.instance.ARPosition);
+        button.onClick.AddListener(GameManager.instance.ARPositionObjectMenu);
         button.onClick.AddListener(Create3DModel);
 
         interactionsManager = FindObjectOfType<ARInteractionsManager>();
