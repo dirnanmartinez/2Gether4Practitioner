@@ -1,2 +1,4 @@
 # 2Gether4Practitioner
- TestAnchor
+ 
+ APP PARA TERMINAR DE CREAR LAS ACTIVIDADES
+ 
