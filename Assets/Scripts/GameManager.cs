@@ -193,7 +193,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text _description49;
 
     //VARIABLE PARA GUARDAR LAS ACTIVIDADES
-    List<Activities> actividades = new List<Activities>();
+    //List<Activities> actividades = new List<Activities>();
     List<Activity2User> activity2User = new List<Activity2User>();
     List<Entity3D> entity3D = new List<Entity3D>();
     List<InteractiveSpaces> interactiveSpaces = new List<InteractiveSpaces>();
@@ -239,6 +239,8 @@ public class GameManager : MonoBehaviour
     }
 
     //START DE LA APLICACIÓN
+
+    //CON LA FUNCION START APARECE LA PANTALLA DE "CARGA" LOADING
     void Start()
     {
         //Llamo a la pantalla de loading
@@ -246,7 +248,7 @@ public class GameManager : MonoBehaviour
         //Llamo a collect Actividades
     }   
 
-    //MUESTRO PANTALLA DE LOADING
+    //MUESTRO PANTALLA DE LOADING, INVOVA LA CORRUTINA PARA ESPERAR DOS SEGUNDOS Y QUE DESAPAREZCA
     public void LoadingMenu()
     {
         OnLoading?.Invoke();
@@ -254,38 +256,39 @@ public class GameManager : MonoBehaviour
         StartCoroutine(Loadingg());
     }
 
+    //TRAS DOS SEGUNDOS LLAMA A LA PANTALLA DE LOGIN
     IEnumerator Loadingg()
     {
         yield return new WaitForSecondsRealtime(2);
         LoginMenu();
     }
 
+
+    //SE INVOCA LA PANTALLA DE LOGIN
+    /*
+     * PARA HACER EL LOGIN EL PROYECTO SE CONECTA CON LA BBDD DE PLAYFAB DONDE ESTAN CREADOS LOS USUARIOS
+     * UN USUARIO QUE PUEDES USAR ES:
+     * USER: Terapeuta1@uclm.es PASSWORD: 123456
+    */
     public void LoginMenu()
     {
         OnLogin?.Invoke();
         Debug.Log("Login menu ACTIVATED");
     }
 
+
+
+    //CON LA PANTALLA REGISTER SE AÑADIRAN USUARIOS A PLAYFAB PARA LUEGO PODER HACER LOGIN
     public void RegisterMenu()
     {
         Debug.Log("Register menu ACTIVATED");
         OnRegister?.Invoke();
     }
 
-    public void AAAPruebas()
-    {
-        //StartCoroutine(CollectActivities());
-        //StartCoroutine(CollectActivity2User());
-        //StartCoroutine(CollectEntity3D());
-        //StartCoroutine(CollectInteractiveSpaces());
-        //StartCoroutine(CollectActivitiesById());
-        //string owner = "Terapeuta2@uclm.es";
-        //StartCoroutine(CollectActivitiesByOwner());
-        StartCoroutine(CollectStepByActivtyId());
-        //StartCoroutine(CollectActivity2UserByActivityId());
-        Debug.Log("FUNCION APAGADA");
-    }
 
+
+    //CORROUTINAS PARA CONECTARSE A LA BBDD DE POSTMAN SE ADAPTARAN PARA QUE PUEDAS ACCEDER (NO SE USARÁN)
+    /*
     IEnumerator CollectActivity2UserByActivityId()
     {
         int idActividad = idActividadSeleccionada;
@@ -350,7 +353,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("FinalMessageError -->" + a.FinalMessageError);
             Debug.Log("MaxTime -->" + a.MaxTime);
             Debug.Log("Owner -->" + a.Owner);
-            */
+            
             activitiesIds.Add(a.Id);
             numActivitiesByOwner++;
         }
@@ -359,6 +362,7 @@ public class GameManager : MonoBehaviour
 
         ActivateOptionsMenu();
     }
+
     IEnumerator GetStepsById()
     {
         int stepId = stepsIds[stepAux];
@@ -380,8 +384,28 @@ public class GameManager : MonoBehaviour
        
         
     }
+    */
+
+    //LISTA DE INFORMACION SOBRE ACTIVIDADES
+
+    List<string> actividades = new List<string>()
+    {
+        "1", "2"
+    };
+
+    List<string> infoActividad1 = new List<string>()
+    {
+        "Recoger Habitacion", "Vamos a ordenar tu habitacion", "marta@uclm.es", "luis@uclm.es", "Colocar camiseta", "Colocar Pantalon", "Colocar Zapatillas", "habitacion", "habitacion", "habitacion" , "camsieta", "pantalon", "zapatillas"
+    };
+
+    List<string> infoActividad2 = new List<string>()
+    {
+        "Llevar libro", "Llevar libro de la habitacion al salon (Se debe colocar el libro tanto en la habitacion como en el salon", "marta@uclm.es", "luis@uclm.es","Colocar libro la habitacion", "Colocar el libro en el salon", "habitacion", "salon", "libro", "libro"
+    };
 
 
+
+    //BOTON PARA QUE SE REGISTRE EL NUEVO USUARIO
     public void RegisterButton()
     {
         if (password1InputRegister.text == password2InputRegister.text)
@@ -399,18 +423,19 @@ public class GameManager : MonoBehaviour
             messageInfo.text = "LAS CONTRASEÑS NO COINCIDEN";
         }
     }
-
+    //SI TODOS LOS DATOS SON CORRECTOS SE CREA EL NUEVO USUARIO
     void OnRegisterSuccess(RegisterPlayFabUserResult result)
     {
         messageInfo.text = "REGISTRADO CORRECTAMENTE";
     }
 
-
+    //BOTON QUE SE LLAMA PARA HACER LOGIN Y ENTRAR EN LA LISTA DE ACTIVIDADES
     public void PressLoginButton()
     {
         DoLogin(emailInput.text, passwordInput.text);
     }
 
+    //SE COMPRUEBAN QUE LOS DATOS INTRODUCIDOS SON CORRECTOS LLAMANDO A PLAYFAB
     public void DoLogin(string email, string pass)
     {
         var request = new LoginWithEmailAddressRequest
@@ -421,22 +446,17 @@ public class GameManager : MonoBehaviour
         PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnError);
     }
 
+    //SE COMPRUEBA QUE LOS DATOS DE LOGIN SON CORRECTOS Y SE LLAMA A LA LISTA DE ACTIVIDADES PARA LSIAR LAS ACTIVIDADES
     private void OnLoginSuccess(LoginResult result)
     {
         Debug.Log("Succesful login/account create!!");
 
-        foreach (var acti in actividades.ToList())
-        {
-            if (acti.Owner != emailInput.text)
-            {
-                actividades.Remove(acti);
-            }
-        }
-
-        StartCoroutine("CollectActivitiesByOwner");
-
+        //StartCoroutine("CollectActivitiesByOwner");
+        ActivateOptionsMenu();
     }
 
+
+    //SE CONTROLAN LOS ERRORES A LA HORA DE REGISTRAR UN NUEVO USUARIO O DE HACER LOGIN 
     private void OnError(PlayFabError error)
     {
         Debug.Log("Error while logging in/creating account");
@@ -444,6 +464,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+    //SE INVOCA PARA QUE APAREZCAN LA LISTA DE ACTIVIDADES
     public void ActivateOptionsMenu()
     {
         Debug.Log("Options menu ACTIVATED");
@@ -464,49 +485,21 @@ public class GameManager : MonoBehaviour
         int i = 0;
         int numActividad = 0;
 
-        foreach (var actividad in activitiesByOwner)
+        foreach (var actividad in actividades)
         {
             if (numActividad == 0)
             {
                 optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(i).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-                _tittle0.text = actividad.Name;
-                _description0.text = actividad.Description;
+                _tittle0.text = infoActividad1[0];
+                _description0.text = infoActividad1[1];
                 i++;  
             }
             if (numActividad == 1)
             {
                 optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(i).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-                _tittle1.text = actividad.Name;
-                _description1.text = actividad.Description;
+                _tittle1.text = infoActividad2[0];
+                _description0.text = infoActividad2[1];
                 i++;               
-            }
-            if (numActividad == 2)
-            {
-                optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(i).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-                _tittle2.text = actividad.Name;
-                _description2.text = actividad.Description;
-                i++;
-            }
-            if (numActividad == 3)
-            {
-                optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(i).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-                _tittle3.text = actividad.Name;
-                _description3.text = actividad.Description;
-                i++;
-            }
-            if (numActividad == 4)
-            {
-                optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(i).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-                _tittle4.text = actividad.Name;
-                _description4.text = actividad.Description;
-                i++;
-            }
-            if (numActividad == 5)
-            {
-                optionsCanvas.transform.GetChild(0).GetChild(2).GetChild(0).GetChild(0).GetChild(i).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
-                _tittle5.text = actividad.Name;
-                _description5.text = actividad.Description;
-                i++;
             }
             numActividad++;
         }
@@ -519,59 +512,59 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+    //SE LLAMA PARA VOLVER AL LOGIN 
     public void VolverLogin()
     {
 
         OnLogin?.Invoke();
-        activitiesIds.Clear();     
+        activitiesIds.Clear();
+        activitiesByOwner.Clear();
     }
 
     int idActividadSeleccionada;
-    int activity;
+    int activityId;
 
+    //FUNCIONES PARA MOSTRAR LA INFORMACION DE UNA ACTIVIDAD
     public void Act1Aux0()
     {
-        activity = 0;
-        idActividadSeleccionada = activitiesIds[activity];
-        StartCoroutine("CollectActivity2UserByActivityId");
-        StartCoroutine("CollectStepByActivtyId");
+        //activity = 0;
+        //idActividadSeleccionada = activitiesIds[activity];
+        nameAct.text = infoActividad1[0];
+        descAct.text = infoActividad1[1];
+        pacienteAct.text = infoActividad1[2] + ", " + infoActividad1[3];
+        pasosAct.text = infoActividad1[4] + ", " + infoActividad1[5] + ", " + infoActividad1[6];
+
+        activityId = 1;
+
+        onDescActivity?.Invoke();
+        //StartCoroutine("CollectActivity2UserByActivityId");
+        //StartCoroutine("CollectStepByActivtyId");
     }
     public void Act1Aux1()
     {
+        /*
         activity = 1;
         idActividadSeleccionada = activitiesIds[activity];
         StartCoroutine("CollectActivity2UserByActivityId");
         StartCoroutine("CollectStepByActivtyId");
-    }
-    public void Act1Aux2()
-    {
-        activity = 2;
-        idActividadSeleccionada = activitiesIds[activity];
-        StartCoroutine("CollectActivity2UserByActivityId");
-        StartCoroutine("CollectStepByActivtyId");
-    }
-    public void Act1Aux3()
-    {
-        activity = 3;
-        idActividadSeleccionada = activitiesIds[activity];
-        StartCoroutine("CollectActivity2UserByActivityId");
-        StartCoroutine("CollectStepByActivtyId");
-    }
-    public void Act1Aux4()
-    {
-        activity = 4;
-        idActividadSeleccionada = activitiesIds[activity];
-        StartCoroutine("CollectActivity2UserByActivityId");
-        StartCoroutine("CollectStepByActivtyId");
-    }
-    public void Act1Aux5()
-    {
-        activity = 5;
-        idActividadSeleccionada = activitiesIds[activity];
-        StartCoroutine("CollectActivity2UserByActivityId");
-        StartCoroutine("CollectStepByActivtyId");
+        */
+
+        nameAct.text = infoActividad2[0];
+        descAct.text = infoActividad2[1];
+        pacienteAct.text = infoActividad2[2] + ", " + infoActividad2[3];
+        pasosAct.text = infoActividad2[4] + ", " + infoActividad2[5] + ", " + infoActividad2[6];
+
+        activityId = 2;
+
+        onDescActivity?.Invoke();
     }
 
+   
+
+    //SE RELLENA TODA LA INFORMACION DE LA ACTIVIDAD PARA MOSTRARLA 
+    //PARA NUESTRO CASO NO SE USARÁ
+    /*
     public void InfoActivityComplete() {
 
         StopCoroutine("CollectActivity2UserByActivityId");
@@ -624,116 +617,374 @@ public class GameManager : MonoBehaviour
 
         onDescActivity?.Invoke();
     }
+    */
 
+
+    //BOTON PARA VOLVER AL LISTADO DE LAS ACTIVIDADES DEL USUARIO
     public void VolverOptions()
     {
-        step.Clear();
-        usuarios.Clear();
+        //usuarios.Clear();
+        //step.Clear();
+        //stepsIds.Clear();
+        activityId = 0;
         ActivateOptionsMenu();
     }
 
-
+    //SE MUESTRA INFORMACION AUXILIAR ANTES DE EMPEZAR LA ACTIVIDAD
     public void AsistenteInfoMenu()
     {
-        nameActInfo.text = activitiesByOwner[activity].Name;
+        //nameActInfo.text = activitiesByOwner[activity].Name;
+        if(activityId == 1)
+        {
+            nameActInfo.text = infoActividad1[0];
+        }
+        else
+        {
+            nameActInfo.text = infoActividad1[1];
+        }
+        
         onAsistenteInfo?.Invoke();
         Debug.Log("Asistente Info menu ACTIVATED");
     }
 
+    int contadorPasos = 1;
+    int numero;
+    //FUNCION AUXLIAR PARA RECOGER LA INFORMACION DEL PASO QUE SE VA A RELIZAR
     public void AsistenteStartPasoAux()
     {
-        if(stepAux < stepsIds.Count())
+        
+
+        if (activityId == 1)
         {
-            StartCoroutine("GetStepsById");
-            stepAux++ ;
+            numero = 3;
         }
         else
         {
-            Debug.Log("NO HAY MAS PASOS");
-            EndActivityMenuControlador();
-            //Llamar a no hay mas pasos
+            numero = 2;
         }
+
+        Aux();
 
     }
 
+    public void Aux()
+    {
+        if (numero == 0)
+        {
+            EndActivityMenuControlador();
+
+        }
+        else
+        {
+            AsistenteStartPasoMenu();
+            numero--;
+        }
+
+
+    }
+
+    //SE MUESTRA LA INFORMACION DEL PASO QUE SE VA A REALIZAR
     public void AsistenteStartPasoMenu()
     {
-        StopCoroutine("GetStepsById");
 
-        namePaso1.text = activitiesByOwner[activity].Name;
-        bocadilloNombreAct.text = activitiesByOwner[activity].Name;
-        bocadilloPrimerPaso.text = stepInformation.stepDescriptions[0].Description;
-        bocadilloNombreUbicacion.text = stepInformation.InteractiveSpaceName;
-        bocadilloObjetosPaso1.text = stepInformation.stepDescriptions[0].entities[0].entityName;
+        if(activityId == 1)
+        {
+            if(contadorPasos == 1)
+            {
+                namePaso1.text = infoActividad1[0];
+                bocadilloNombreAct.text = infoActividad1[0];
+                bocadilloPrimerPaso.text = infoActividad1[4];
+                bocadilloNombreUbicacion.text = infoActividad1[7];
+                bocadilloObjetosPaso1.text = infoActividad1[10];
+                
+            }
+            else if(contadorPasos == 2){
+                namePaso1.text = infoActividad1[0];
+                bocadilloNombreAct.text = infoActividad1[0];
+                bocadilloPrimerPaso.text = infoActividad1[5];
+                bocadilloNombreUbicacion.text = infoActividad1[8];
+                bocadilloObjetosPaso1.text = infoActividad1[11];
+                
+            }
+            else if (contadorPasos == 3)
+            {
+                namePaso1.text = infoActividad1[0];
+                bocadilloNombreAct.text = infoActividad1[0];
+                bocadilloPrimerPaso.text = infoActividad1[6];
+                bocadilloNombreUbicacion.text = infoActividad1[9];
+                bocadilloObjetosPaso1.text = infoActividad1[12];
+            }
+        }
 
+        if (activityId == 2)
+        {
+            if (contadorPasos == 1)
+            {
+                namePaso1.text = infoActividad2[0];
+                bocadilloNombreAct.text = infoActividad2[0];
+                bocadilloPrimerPaso.text = infoActividad2[4];
+                bocadilloNombreUbicacion.text = infoActividad2[6];
+                bocadilloObjetosPaso1.text = infoActividad2[8];
+                
+            }
+            else if (contadorPasos == 2)
+            {
+                namePaso1.text = infoActividad2[0];
+                bocadilloNombreAct.text = infoActividad2[0];
+                bocadilloPrimerPaso.text = infoActividad2[5];
+                bocadilloNombreUbicacion.text = infoActividad2[7];
+                bocadilloObjetosPaso1.text = infoActividad2[9];
+            }            
+        }
+
+        //StopCoroutine("GetStepsById");
+
+        
         onAsistenteStartPaso?.Invoke();
     }
 
+
+    //FUNCION PARA REGISTRAR EL ESPACIO INTERACTIVO
     public void RegisterSpaceMenu()
     {
-        if (regUbicacionAntigua != stepInformation.InteractiveSpaceName)
-        {
-            regUbicacionAntigua = stepInformation.InteractiveSpaceName;
 
-            onRegisterSpace?.Invoke();
-            Debug.Log("Register Space menu ACTIVATED");
+     
+        if (activityId == 1){
+            if (contadorPasos == 1)
+            {
+                if (regUbicacionAntigua != infoActividad1[7])
+                {
+                    regUbicacionAntigua = infoActividad1[7];
+
+                    onRegisterSpace?.Invoke();
+                    Debug.Log("Register Space menu ACTIVATED");
+                }
+                else
+                {
+                    BoxObjetosOpenMenu();
+                }
+            }
+            else if(contadorPasos == 2)
+            {
+                if (regUbicacionAntigua != infoActividad1[8])
+                {
+                    regUbicacionAntigua = infoActividad1[8];
+
+                    onRegisterSpace?.Invoke();
+                    Debug.Log("Register Space menu ACTIVATED");
+                }
+                else
+                {
+                    BoxObjetosOpenMenu();
+                }
+            }
+            else if(contadorPasos == 3)
+            {
+                if (regUbicacionAntigua != infoActividad1[9])
+                {
+                    regUbicacionAntigua = infoActividad1[9];
+
+                    onRegisterSpace?.Invoke();
+                    Debug.Log("Register Space menu ACTIVATED");
+                }
+                else
+                {
+                    BoxObjetosOpenMenu();
+                }
+            }
         }
-        else
+
+        if (activityId == 2)
         {
-            BoxObjetosOpenMenu();
-        }
+            if (contadorPasos == 1)
+            {
+                if (regUbicacionAntigua != infoActividad2[6])
+                {
+                    regUbicacionAntigua = infoActividad2[6];
+
+                    onRegisterSpace?.Invoke();
+                    Debug.Log("Register Space menu ACTIVATED");
+                }
+                else
+                {
+                    BoxObjetosOpenMenu();
+                }
+            }
+            else if (contadorPasos == 2)
+            {
+                if (regUbicacionAntigua != infoActividad2[7])
+                {
+                    regUbicacionAntigua = infoActividad2[7];
+
+                    onRegisterSpace?.Invoke();
+                    Debug.Log("Register Space menu ACTIVATED");
+                }
+                else
+                {
+                    BoxObjetosOpenMenu();
+                }
+            }
+        } 
     }
 
+    //FUNCION PARA MOSTRAR EL PREFAB QUE SE QUIERE AÑADIR
     public void BoxObjetosOpenMenu()
     {
+        if(activityId == 1)
+        {
+            if(contadorPasos == 1)
+            {
+                objetoAColocar.text = infoActividad1[10];
 
-        objetoAColocar.text = stepInformation.stepDescriptions[0].entities[0].entityName;
+                onBoxObjetosOpen?.Invoke();
+                Debug.Log("Box Objetos Open menu ACTIVATED");
+            }
+            else if(contadorPasos == 2)
+            {
+                objetoAColocar.text = infoActividad1[11];
 
-        onBoxObjetosOpen?.Invoke();
-        Debug.Log("Box Objetos Open menu ACTIVATED");
+                onBoxObjetosOpen?.Invoke();
+                Debug.Log("Box Objetos Open menu ACTIVATED");
+            }
+            else if(contadorPasos == 3)
+            {
+                objetoAColocar.text = infoActividad1[12];
+
+                onBoxObjetosOpen?.Invoke();
+                Debug.Log("Box Objetos Open menu ACTIVATED");
+            }
+        }
+
+        if (activityId == 2)
+        {
+
+            if (contadorPasos == 1)
+            {
+                objetoAColocar.text = infoActividad2[8];
+
+                onBoxObjetosOpen?.Invoke();
+                Debug.Log("Box Objetos Open menu ACTIVATED");
+            }
+            else if (contadorPasos == 2)
+            {
+                objetoAColocar.text = infoActividad2[9];
+
+                onBoxObjetosOpen?.Invoke();
+                Debug.Log("Box Objetos Open menu ACTIVATED");
+            }
+           
+        }
+
     }
 
+    //FUNCION PARA ANCLAR EL OBJERO EN EL ESPACIO INTERACTIVO
     public void ARPositionObjectMenu()
     {
         onARPositionObject?.Invoke();
         Debug.Log("AR Position Object menu ACTIVATED");
     }
 
+
+    //PASO PARA GUARDAR EL PASO
     public void AsistenteInfoSaveMenuPaso()
     {
+        if(activityId == 1)
+        {
+            if(contadorPasos == 1)
+            {
+                bocadilloSavePaso.text = infoActividad1[4];
+                actividadName.text = infoActividad1[0];
+            
+            }else if (contadorPasos == 2)
+            {
+                bocadilloSavePaso.text = infoActividad1[5];
+                actividadName.text = infoActividad1[0];
+            }
+            else if (contadorPasos == 3)
+            {
+                bocadilloSavePaso.text = infoActividad1[6];
+                actividadName.text = infoActividad1[0];
+            }
 
-        bocadilloSavePaso.text = stepInformation.stepDescriptions[0].Description;
-        actividadName.text = activitiesByOwner[activity].Name;
+
+        }
+
+        if(activityId == 2)
+        {
+            if (contadorPasos == 1)
+            {
+                bocadilloSavePaso.text = infoActividad2[4];
+                actividadName.text = infoActividad2[0];
+
+            }
+            else if (contadorPasos == 2)
+            {
+                bocadilloSavePaso.text = infoActividad2[5];
+                actividadName.text = infoActividad2[0];
+            }
+        }
+        
 
         Debug.Log("GUARDAR?");
         onAsistenteInfoSave?.Invoke();
     }
 
+
+    //FUNCION INFORMATIVA PARA IR AL SIGUIENTE PASO IRÁ A AsistenteStartPasoAux ahora es AUX
+    //SI HAY MAS PASOS VA A AsistenteStartPasoMenu
+    //SI NO HAY MAS PASOS VA A EndActivityMenuControlador
     public void NextPasoMenuControlador()
     {
-        actNamee.text = activitiesByOwner[activity].Name;
+        if(activityId == 1)
+        {
+            actNamee.text = infoActividad1[0];
+        }
+        else if(activityId == 2)
+        {
+            actNamee.text = infoActividad2[1];
+        }
+        
+        contadorPasos ++;
         onNextPaso?.Invoke();
     }
 
+    //NO HAY MAS PASOS E INFORMA QUE SE HA TERMINADO LA ACTIVIDAD
     public void EndActivityMenuControlador()
     {
-        bocadilloNombreActFin.text = activitiesByOwner[activity].Name;
-        actFinName.text = activitiesByOwner[activity].Name;
+        
+
+        if (activityId == 1)
+        {
+            bocadilloNombreActFin.text = infoActividad1[0];
+            actFinName.text = infoActividad1[0];
+        }
+        else if (activityId == 2)
+        {
+            bocadilloNombreActFin.text = infoActividad2[1];
+            actFinName.text = infoActividad2[1];
+        }
 
         onEndActivity?.Invoke();
     }
 
+    //SALE DE LA EDICION DE LA ACTIVIDAD Y VUELVE AL LISTADO DE ACTIVIDADES
     public void SalirEditActivity()
     {
 
-        stepAux = 0;
-        stepsIds.Clear();
-        step.Clear();
-        regUbicacionAntigua = null;
+        //stepAux = 0;
+        //stepsIds.Clear();
+        //step.Clear();
+        //regUbicacionAntigua = null;
 
-        StartCoroutine("CollectActivitiesByOwner");
+        contadorPasos = 1;
+        activityId = 0;
+
+        ActivateOptionsMenu();
+        //StartCoroutine("CollectActivitiesByOwner");
     }
 
+
+    //CIERRA LA APLICACION
     public void CloseApp()
     {
         Application.Quit();
@@ -741,8 +992,8 @@ public class GameManager : MonoBehaviour
 
 
 
-
-
+    
+    //ESTAS FUNCIONES NO SE USAN NUNCA
     public void ItemsMenu()
     {
         OnItemsMenu?.Invoke();
