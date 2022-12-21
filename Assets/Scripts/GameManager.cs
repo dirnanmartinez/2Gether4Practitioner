@@ -229,7 +229,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    //START DE LA APLICACIÓN
+    //START DE LA APLICACIï¿½N
     void Start()
     {
         //Llamo a la pantalla de loading
@@ -273,7 +273,7 @@ public class GameManager : MonoBehaviour
     }
 
     
-    //CORRUTINAS QUE SE USAN PARA LA BBDD SE CREARÁN ACTIVIDADAS AUXILIARES PARA QUE NO SE USEN
+    //CORRUTINAS QUE SE USAN PARA LA BBDD SE CREARï¿½N ACTIVIDADAS AUXILIARES PARA QUE NO SE USEN
     /*
     IEnumerator CollectActivitiesByUser()
     {
@@ -357,7 +357,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            messageInfo.text = "LAS CONTRASEÑS NO COINCIDEN";
+            messageInfo.text = "LAS CONTRASEï¿½S NO COINCIDEN";
         }
     }
 
@@ -514,7 +514,7 @@ public class GameManager : MonoBehaviour
 
 
     //SE RELLENA TODA LA INFORMACION DE LA ACTIVIDAD PARA MOSTRARLA 
-    //PARA NUESTRO CASO NO SE USARÁ
+    //PARA NUESTRO CASO NO SE USARï¿½
     /*
     public void InfoActivityComplete()
     {
@@ -561,7 +561,6 @@ public class GameManager : MonoBehaviour
 
         onDescActivity?.Invoke();
     }
-
     */
 
 
@@ -667,7 +666,6 @@ public class GameManager : MonoBehaviour
                 bocadilloPrimerPaso.text = infoActividad1[5];
                 bocadilloNombreUbicacion.text = infoActividad1[8];
                 bocadilloObjetosPaso1.text = infoActividad1[11];
-
             }
             else if (contadorPasos == 3)
             {
@@ -688,7 +686,6 @@ public class GameManager : MonoBehaviour
                 bocadilloPrimerPaso.text = infoActividad2[4];
                 bocadilloNombreUbicacion.text = infoActividad2[6];
                 bocadilloObjetosPaso1.text = infoActividad2[8];
-
             }
             else if (contadorPasos == 2)
             {
@@ -790,7 +787,7 @@ public class GameManager : MonoBehaviour
     }
 
     //CUANDO SE HA REGISTRADO DEBE APARECER EL PREFAB QUE SE HA ANCLADO EN LA OTRA APP PARA SELECCIONARLO
-    //ESTAN ASÍ PARA PODER HACER EL FLUJO EN VERDAD DEBERIA SALR TODO EN UNA
+    //ESTAN ASï¿½ PARA PODER HACER EL FLUJO EN VERDAD DEBERIA SALR TODO EN UNA
     public void RegisterSpaceAccion()
     {
 
@@ -844,7 +841,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    //FUNCION INFORMATIVA PARA IR AL SIGUIENTE PASO IRÁ A AsistenteStartPasoAux ahora es AUX
+    //FUNCION INFORMATIVA PARA IR AL SIGUIENTE PASO IRï¿½ A AsistenteStartPasoAux ahora es AUX
     //SI HAY MAS PASOS VA A AsistenteStartPasoMenu
     //SI NO HAY MAS PASOS VA A EndActivityMenuControlador
     public void NextPasoMenuControlador()
@@ -979,7 +976,7 @@ public class GameManager : MonoBehaviour
 
     
 
-    //ESTAS FUNCIONES YA NO SE USAN ESTARIA BIEN BORRARLAS DEL CÓDIGO
+    //ESTAS FUNCIONES YA NO SE USAN ESTARIA BIEN BORRARLAS DEL Cï¿½DIGO
     public void BoxObjetosOpenMenu()
     {
 

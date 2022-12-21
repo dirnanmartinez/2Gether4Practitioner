@@ -91,6 +91,7 @@ public class UIManager : MonoBehaviour
         asistenteStartPasoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
         asistenteStartPasoCanvas.transform.GetChild(1).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
 
+        asistenteStartPasoCanvas.transform.GetChild(0).transform.DOScale(new Vector3(1, 1, 1), 0.3f);
     }
 
     
